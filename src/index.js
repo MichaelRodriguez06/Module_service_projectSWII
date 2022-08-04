@@ -13,10 +13,10 @@ expressApp.use(bodyParser.urlencoded({
     extended: true
 }));
 
-// //connecting to db
-// mongoose.connect('mongodb://localhost/crud-mongo')
-//     .then(db => console.log('Db connected'))
-//     .catch(err => console.log('err:' + err.message));
+//connecting to db
+mongoose.connect('mongodb://localhost/crud-mongo')
+    .then(db => console.log('Db connected'))
+    .catch(err => console.log('err:' + err.message));
 
 //routes
 expressApp.use('/', router);
