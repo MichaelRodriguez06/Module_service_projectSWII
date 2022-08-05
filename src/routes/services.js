@@ -304,29 +304,7 @@ router.patch("/confirmar/student/", async (req, res) => {
  * Actualiza el estado de una materia
  */
 router.patch("/confirmar/service", async (req, res) => {
-    let header = req.header;
-    Console.log(header == null);
-    Subject.updateOne({id_service: header.id_service}, {state: "CONFIRMADO"},
-        function (error, info) {
-            if (error) {
-                res.json({
-                    code: 400,
-                    msg: 'Bad request'
-                });
-            } else if (info.matchedCount >= 1) {
-                res.json({
-                    code: 200,
-                    msg: 'status change',
-                    info: info
-                });
-            } else {
-                res.json({
-                    code: 404,
-                    msg: 'Not Found'
-                });
-            }
-        }
-    );
+
 
 });
 
