@@ -5,6 +5,7 @@ const router = express.Router();
 import Student from "../schema/student.js";
 import Subject from "../schema/subject.js";
 import Inscription from "../schema/inscription.js";
+import * as Console from "console";
 
 
 /**
@@ -19,15 +20,29 @@ router.get('/showData', async (req, res) => {
     res.send("inscriptions" + inscriptions);
 });
 
-
-router.get('/', async (req, res) => {
-    //Aqui estoy recogiendo los datos del servidor
-    const tasks_db = await Student.find();
-    console.log(tasks_db);
-    res.send("Hola");
-
+router.get('/listar_servicios/' || '/listar_servicios', async (req, res) => {
+    // const students = await Student.find();
+    // const subjects = await Subject.find();
+    // const inscriptions = await Inscription.find();
+    // res.send("Students:" + students);
+    // res.send("subjects" + subjects);
+    // res.send("inscriptions" + inscriptions);
+    const services = await Subject.find();
+    res.status(200).json({services})
 });
 
+
+router.get('/', async (req, res) => {
+    Console.log("hola");
+    // Aqui estoy recogiendo los datos del servidor
+    // const tasks_db = await Student.find();
+    // console.log(tasks_db);
+    res.send("Mi nombre otra vez");
+});
+
+router.get('/prueba/', async (req, response) => {
+    response.status(200);
+});
 /**
  * GET:
  *  Obtiene el ultimo estudiante guardado en la base de datos usando
