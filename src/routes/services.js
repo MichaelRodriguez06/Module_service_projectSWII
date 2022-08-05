@@ -3,9 +3,10 @@ import express from "express";
 const router = express.Router();
 
 import Student from "../schema/student.js";
-import Subject from "../schema/subject.js";
+import Subject from "../schema/services_schema.js";
 import Inscription from "../schema/inscription.js";
 import * as Console from "console";
+import ServiceSchema from "../schema/services_schema.js";
 
 
 /**
@@ -27,7 +28,7 @@ router.get('/listar_servicios/' || '/listar_servicios', async (req, res) => {
     // res.send("Students:" + students);
     // res.send("subjects" + subjects);
     // res.send("inscriptions" + inscriptions);
-    const services = await Subject.find();
+    const services = await ServiceSchema.find();
     res.status(200).json({services})
 });
 
@@ -40,9 +41,6 @@ router.get('/', async (req, res) => {
     res.send("Mi nombre otra vez");
 });
 
-router.get('/prueba/', async (req, response) => {
-    response.status(200);
-});
 /**
  * GET:
  *  Obtiene el ultimo estudiante guardado en la base de datos usando
@@ -473,12 +471,12 @@ function checkStudent(student, listStudent) {
  ** Servicio de insertar a la DB una Materia.
  **/
 
-router.post("/add/subject/:id_subject/:name_subject/:code_subject/:quotas/:status", async (req, res) => {
+router.post("/add/service/:id_subject/:name_subject/:code_subject/:quotas/:status", async (req, res) => {
     try {
         const infoServicio = req.params;
         console.log("Aqui llegan los parametros" + infoServicio);
         const listSubject = await Subject.find();
-        if (checkSubject(infoServicio, listSubject)) {
+        if (checkService(infoServicio, listSubject)) {
             const subject = new Subject(infoServicio);
             console.log("Aqui se crea la Materia:" + subject);
             res.status(200).json({
@@ -510,24 +508,23 @@ router.post("/add/subject/:id_subject/:name_subject/:code_subject/:quotas/:statu
  ** Servicio de insertar a la DB una Materia.
  **/
 
-router.post("/add/subject", async (req, res) => {
+router.post("/add/service/", async (req, res) => {
     try {
         const infoServicio = req.body;
         console.log("Aqui llegan los parametros" + infoServicio);
-        const listSubject = await Subject.find();
-        if (checkSubject(infoServicio, listSubject)) {
-            const subject = new Subject(infoServicio);
-            console.log("Aqui se crea la Materia:" + subject);
+        const listSubject = await ServiceSchema.find();
+        if (checkService(infoServicio, listSubject)) {
+            const service = new ServiceSchema(infoServicio);
+            console.log("Aqui se crea el servicio:" + service);
             res.status(200).json({
                 code: 200,
-                message: 'Saved Subject' + await subject.save(),
-                details: 'Estudiante registrado: ' + infoServicio
+                message: 'Servicio creado' + await service.save(),
             });
         } else {
             res.status(409).json({
                 code: 409,
-                message: 'La Materia ya se encuantra registrada o el codigo de la materia esta ya asignado',
-                details: 'Materia posiblemente esta registrado: ' + infoServicio
+                message: 'El ya se encuantra registrada o el codigo del servicio esta ya asignado',
+                details: 'El servicio posiblemente esta registrado: ' + infoServicio
             });
         }
     } catch (err) {
@@ -541,21 +538,20 @@ router.post("/add/subject", async (req, res) => {
 });
 
 /**
- ** function checkSubject:
+ ** function checkService:
  ** Verifica si una Materia ya se encuentra registrada en la base de datos.
  ** Return: un boleano que confirma si la Materia se encuentra o no.
  ** Parametros de entrada:
- subject: Representa los datos de la Materia que se quiere insertar en la DB,
- listSubject: Listado de todos lo Materias actuales en la DB.
+ service: Representa los datos de la Materia que se quiere insertar en la DB,
+ listServices: Listado de todos lo Materias actuales en la DB.
  **/
-function checkSubject(subject, listSubject) {
-    let bolean = true;
-    listSubject.forEach(function (element) {
-        if (element.name_subject == subject.name_subject || element.code_subject == subject.code_subject) {
-            bolean = false;
-        }
+function checkService(service, listServices) {
+    listServices.forEach(function (element) {
+        if (element.id_service === service.id_service)
+            return false;
+
     });
-    return bolean;
+    return true;
 }
 
 
