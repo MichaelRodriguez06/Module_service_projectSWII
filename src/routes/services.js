@@ -101,7 +101,7 @@ router.get('/getInscription/', async (req, res) => {
 
 
 /***
- * Get Service
+ * Metodo que retorna la información de un servicio de limpieza según id del servicio.
  */
  router.get('/buscar_servicio/', async (req, res) => {
     const services = await ServiceSchema.find();
@@ -124,6 +124,14 @@ router.get('/getInscription/', async (req, res) => {
             details: 'El servicio de limpieza ' + id_service + '. No se encuentra en la base de datos'
         });
 
+});
+
+/***
+ * Metodo que retorna la información de los servicios de limpieza asociados al id de un cliente
+ */
+ router.get('/listar_servicios_cliente/', async (req, res) => {
+    const services = await ServiceSchema.find({id_client: req.body.id_client});
+    res.status(200).json({services})
 });
 
 /***
