@@ -101,6 +101,40 @@ router.get('/getInscription/', async (req, res) => {
 
 
 /***
+ * Metodo que retorna la información de un servicio de limpieza según id del servicio.
+ */
+ router.get('/buscar_servicio/', async (req, res) => {
+    const services = await ServiceSchema.find();
+    let service = null;
+    let id_service = req.body.id_service;
+    services.forEach(function (element) {
+        if (id_service == element.id_service) {
+            service = element.toString();
+            res.status(200).json({
+                code: 200,
+                message: 'Servicio de limpieza encontrado',
+                details: 'Servicio: ' + element.toString()
+            });
+        }
+    });
+    if (service == null)
+        res.status(404).json({
+            code: 404,
+            message: 'No se encuentra el servicio de limpieza',
+            details: 'El servicio de limpieza ' + id_service + '. No se encuentra en la base de datos'
+        });
+
+});
+
+/***
+ * Metodo que retorna la información de los servicios de limpieza asociados al id de un cliente
+ */
+ router.get('/listar_servicios_cliente/', async (req, res) => {
+    const services = await ServiceSchema.find({id_client: req.body.id_client});
+    res.status(200).json({services})
+});
+
+/***
  *  Obtener datos de una materia apartir de un ID de la materia
  */
 router.get('/getSubject/', async (req, res) => {
