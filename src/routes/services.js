@@ -21,24 +21,13 @@ router.get('/showData', async (req, res) => {
     res.send("inscriptions" + inscriptions);
 });
 
+/***
+ * Metodo que retorna una lista de todos los servicios del sistema
+ * mediante la ruta /listar_servicios o /listar_servicios/
+ */
 router.get('/listar_servicios/' || '/listar_servicios', async (req, res) => {
-    // const students = await Student.find();
-    // const subjects = await Subject.find();
-    // const inscriptions = await Inscription.find();
-    // res.send("Students:" + students);
-    // res.send("subjects" + subjects);
-    // res.send("inscriptions" + inscriptions);
     const services = await ServiceSchema.find();
     res.status(200).json({services})
-});
-
-
-router.get('/', async (req, res) => {
-    Console.log("hola");
-    // Aqui estoy recogiendo los datos del servidor
-    // const tasks_db = await Student.find();
-    // console.log(tasks_db);
-    res.send("Mi nombre otra vez");
 });
 
 /**
@@ -285,7 +274,7 @@ router.put('/put/inscription/', async (req, res) => {
 /***
  * Patch Student
  */
-router.patch("/patch/student/", async (req, res) => {
+router.patch("/confirmar/student/", async (req, res) => {
     let body = req.body;
     Student.updateOne({id_student: body.id_student}, {status: {tipo: body.status}},
         function (error, info) {
@@ -314,9 +303,10 @@ router.patch("/patch/student/", async (req, res) => {
  * Patch Subject
  * Actualiza el estado de una materia
  */
-router.patch("/patch/subject", async (req, res) => {
-    let body = req.body;
-    Subject.updateOne({id_subject: body.id_subject}, {status: {tipo: body.status}},
+router.patch("/confirmar/service", async (req, res) => {
+    let header = req.header;
+    Console.log(header == null);
+    Subject.updateOne({id_service: header.id_service}, {state: "CONFIRMADO"},
         function (error, info) {
             if (error) {
                 res.json({
@@ -345,7 +335,7 @@ router.patch("/patch/subject", async (req, res) => {
  * Actualiza el numero de cupos de una materia
  */
 
-router.patch("/patch/subject/quota", async (req, res) => {
+router.patch("/confirmar/service/quota", async (req, res) => {
     let body = req.body;
     Subject.updateOne({id_subject: body.id_subject}, {quotas: body.quota},
         function (error, info) {

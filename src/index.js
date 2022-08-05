@@ -14,7 +14,7 @@ expressApp.use(bodyParser.urlencoded({
 }));
 
 //connecting to db
-mongoose.connect('mongodb://localhost/crud-mongo')
+mongoose.connect('mongodb://localhost/services_module')
     .then(db => console.log('Db connected'))
     .catch(err => console.log('err:' + err.message));
 
