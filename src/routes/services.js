@@ -130,7 +130,7 @@ router.get('/getInscription/', async (req, res) => {
  * Metodo que retorna la información de los servicios de limpieza asociados al id de un cliente
  */
  router.get('/listar_servicios_cliente/', async (req, res) => {
-    const services = await ServiceSchema.find({id_client: req.body.id_client});
+    const services = await ServiceSchema.find({id_client: req.header.id_client});
     res.status(200).json({services})
 });
 
@@ -362,6 +362,64 @@ router.patch("/confirmar/service", async (req, res) => {
         }
     );
 
+});
+
+/***
+ * Actualiza el estado de un servicio de limpieza (CONFIRMADO)
+ */
+ router.patch("/confirmar/", async (req, res) => {
+    let header = req.header;
+    Console.log(header == null);
+    Subject.updateOne({id_service: header.id_service}, {state: "CONFIRMADO"},
+        function (error, info) {
+            if (error) {
+                res.json({
+                    code: 400,
+                    msg: 'Bad request'
+                });
+            } else if (info.matchedCount >= 1) {
+                res.json({
+                    code: 200,
+                    msg: 'Servicio confirmado',
+                    info: info
+                });
+            } else {
+                res.json({
+                    code: 404,
+                    msg: 'Not Found'
+                });
+            }
+        }
+    );
+});
+
+/***
+ * Actualiza el estado de un servicio de limpieza (CONFIRMADO)
+ */
+ router.patch("/cancelar/", async (req, res) => {
+    let header = req.header;
+    Console.log(header == null);
+    Subject.updateOne({id_service: header.id_service}, {state: "CANCELADO"},
+        function (error, info) {
+            if (error) {
+                res.json({
+                    code: 400,
+                    msg: 'Bad request'
+                });
+            } else if (info.matchedCount >= 1) {
+                res.json({
+                    code: 200,
+                    msg: 'Servicio cancelado',
+                    info: info
+                });
+            } else {
+                res.json({
+                    code: 404,
+                    msg: 'Not Found'
+                });
+            }
+        }
+    );
 });
 
 /***
