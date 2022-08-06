@@ -9,18 +9,6 @@ import * as Console from "console";
 import ServiceSchema from "../schema/services_schema.js";
 
 
-/**
- Get para mostrar las tres colecciones (Estudiantes, Materias e Inscripciones)
- **/
-router.get('/showData', async (req, res) => {
-    const students = await Student.find();
-    const subjects = await Subject.find();
-    const inscriptions = await Inscription.find();
-    res.send("Students:" + students);
-    res.send("subjects" + subjects);
-    res.send("inscriptions" + inscriptions);
-});
-
 /***
  * Metodo que retorna una lista de todos los servicios del sistema
  * mediante la ruta /listar_servicios o /listar_servicios/
@@ -32,32 +20,6 @@ router.get('/listar_servicios/' || '/listar_servicios', async (req, res) => {
     } catch (error) {
         res.status(500).json({error});
     }
-});
-
-/***
- * Get Inscription
- */
-router.get('/getInscription/', async (req, res) => {
-    const inscriptions = await Inscription.find();
-    let inscription = null;
-    let id_inscription = req.body.id_inscription;
-    inscriptions.forEach(function (element) {
-        if (id_inscription == element.id_inscription) {
-            inscription = element.toString();
-            res.status(200).json({
-                code: 200,
-                message: 'Inscripcion encontrada',
-                details: 'Incripcion: ' + element.toString()
-            });
-        }
-    });
-    if (inscription == null)
-        res.status(404).json({
-            code: 404,
-            message: 'No se encuentra la inscripcion',
-            details: 'La inscripcion: ' + id_inscription + ' no se encuentra en la base de datos'
-        });
-
 });
 
 
@@ -104,19 +66,11 @@ router.get('/listar_servicios_cliente/', async (req, res) => {
 
 });
 
-
 /***
- * ------------------------------------- END GET ------------------------------
- */
-
-
-/***
- * Metodos PUT
- */
-
-/***
- * PUT Materia
- *  Actualiza los datos de una materia, a excepcion del ID
+ * Agregar profesional
+ *  Agrega un profesional a un servicio
+ *  Parametros: id_service (servicio al que se le quiere agregar el profesional)
+ *              id_professional (profesional que quiere ser agregado al servicio)
  */
 router.put('/agregar_profesional_service/', async (req, res) => {
     try {
@@ -233,8 +187,7 @@ router.post("/add/service/" || "/add/service", async (req, res) => {
         } else {
             res.status(409).json({
                 code: 409,
-                message: 'El ya se encuantra registrada o el codigo del servicio esta ya asignado',
-                details: 'El servicio posiblemente esta registrado: ' + infoServicio
+                message: 'El servicio posiblemente esta registrado: ' + infoServicio.id_service
             });
         }
     } catch (err) {
@@ -261,26 +214,5 @@ function checkService(service, listServices) {
     });
     return false;
 }
-
-/**
- ** function isStudent:
- ** Verifica si un Estudiante si existe en la base de datos.
- ** Return: un boleano que confirma si la Estudiante  existe.
- ** Parametros de entrada:
- inscription: Representa los datos de la Estudiante que se quiere insertar en la DB,
- listStudent: Listado de todas las Materias actuales en la DB.
- **/
-function isStudent(inscription, listStudent) {
-    let bolean = false;
-    listStudent.forEach(function (element) {
-        if (element.id_student == inscription.id_student) {
-            bolean = true;
-        }
-    });
-    return bolean;
-}
-
-//--------------------------POST- END--------------------------------- //
-
 
 export default router;
