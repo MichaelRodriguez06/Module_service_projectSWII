@@ -2,9 +2,7 @@ import express from "express";
 
 const router = express.Router();
 
-import Student from "../schema/student.js";
 import Subject from "../schema/services_schema.js";
-import Inscription from "../schema/inscription.js";
 import * as Console from "console";
 import ServiceSchema from "../schema/services_schema.js";
 
@@ -177,7 +175,8 @@ router.post("/add/service/" || "/add/service", async (req, res) => {
         const infoServicio = req.body;
         infoServicio.state = "COTIZADO"
         const listServices = await ServiceSchema.find();
-        if (checkService(infoServicio, listServices)) {
+        Console.log(checkService(infoServicio, listServices));
+        if (!checkService(infoServicio, listServices)) {
             const service = new ServiceSchema(infoServicio);
             console.log("Aqui se crea el servicio:" + service);
             res.status(200).json({
@@ -208,11 +207,12 @@ router.post("/add/service/" || "/add/service", async (req, res) => {
  listServices: Listado de todos lo Materias actuales en la DB.
  **/
 function checkService(service, listServices) {
+    let boolean = false;
     listServices.forEach(function (element) {
-        if (element.id_service === service.id_service)
-            return true;
+        if (element.id_service ==  service.id_service)
+            boolean = true;
     });
-    return false;
+    return boolean;
 }
 
 export default router;
