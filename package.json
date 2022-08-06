@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "prestart": "start  \"mongoServer\" mongod --dbpath=\"c:\\data\\db\"",
+    "prestart": "start  \"mongoServer\" mongod --dbpath=\"src/database",
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"
   },
