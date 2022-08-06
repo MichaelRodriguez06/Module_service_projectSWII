@@ -30,7 +30,7 @@ router.get('/buscar_servicio/' || '/buscar_servicio', async (req, res) => {
     let service = null;
     let id_service = req.headers.id_service;
     services.forEach(function (element) {
-        if (id_service === element.id_service) {
+        if (id_service == element.id_service) {
             service = element.toString();
             res.status(200).json({
                 code: 200,
