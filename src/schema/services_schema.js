@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const ServiceSchema = new Schema({
     id_service: Number,
-    id_professional: Number,
+    id_professional: [],
     id_client: Number,
     type_service: String,
     address: String,
