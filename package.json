@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "prestart": "start \"Serivdor MongoDB\" mongod --dbpath=\"src\\database\"",
+//    "prestart": "start \"Serivdor MongoDB\" mongod --dbpath=\"src\\database\"",
     "start": "node ./src/index.js",
     "dev": "nodemon ./src/index.js"
   },
