@@ -50,6 +50,7 @@ router.get('/buscar_servicio/' || '/buscar_servicio', async (req, res) => {
 
 /***
  * Metodo que retorna la información de los servicios de limpieza asociados al id de un cliente
+ * Parametros: id_cliente (ingresa por el HEADER)
  */
 router.get('/listar_servicios_cliente/', async (req, res) => {
     try {

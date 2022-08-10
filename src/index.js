@@ -14,7 +14,7 @@ expressApp.use(bodyParser.urlencoded({
 }));
 
 //connecting to db
-mongoose.connect('mongodb://localhost/services_module')
+mongoose.connect('mongodb+srv://camilo:a123@cluster0.cz7skl7.mongodb.net/?retryWrites=true&w=majority')
     .then(db => console.log('Db connected'))
     .catch(err => console.log('err:' + err.message));
 
